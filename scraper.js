@@ -4,6 +4,12 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 puppeteer.use(StealthPlugin());
 
 (async () => {
+  const url = process.argv[2];
+  if (!url) {
+    console.error('Please provide a URL as the first argument');
+    process.exit(1);
+  }
+
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
 
@@ -13,7 +19,7 @@ puppeteer.use(StealthPlugin());
   });
 
   try {
-    await page.goto('https://suchen.mobile.de/fahrzeuge/details.html?...', { waitUntil: 'networkidle2' });
+    await page.goto(url, { waitUntil: 'networkidle2' });
 
     await page.waitForSelector('#root > div > div.cG3B1 > div.XLH5_ > aside > article > section > div > div.GOIOV.fqe3L.EevEz', { timeout: 60000 });
 
@@ -35,7 +41,6 @@ puppeteer.use(StealthPlugin());
       };
     });
 
-    // Print the details
     console.log(details);
 
   } catch (error) {
