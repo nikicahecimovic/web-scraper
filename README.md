@@ -44,15 +44,13 @@ This project utilizes Puppeteer for headless browser automation and the `puppete
 
 ## Usage
 
-1. Replace the url in the scrapper.js to the desired car listing.
-
-2. Run the scraper:
+1. Run the scraper with the URL of the car listing as a parameter:
     ```sh
-    node scraper.js
+    node scraper.js 'https://suchen.mobile.de/fahrzeuge/details.html?id=.....'
     ```
 
-3. The script will launch a headless browser, navigate to the specified URL, and extract the car details. The extracted details will be printed to the console.
-
+2. The script will launch a headless browser, navigate to the specified URL, and extract the car details. The extracted details will be printed to the console.
+3. 
 ## Project Structure
 
 - `.gitignore`: Specifies files and directories to be ignored by Git.
