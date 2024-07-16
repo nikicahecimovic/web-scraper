@@ -1,15 +1,17 @@
+const express = require('express');
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 // Add stealth plugin to puppeteer
 puppeteer.use(StealthPlugin());
 
-(async () => {
-  // Get the URL from the command line arguments
-  const url = process.argv[2];
+const app = express();
+const port = 3000;
+
+app.get('/scrape', async (req, res) => {
+  const url = req.query.url;
   if (!url) {
-    console.error('Please provide a URL as the first argument');
-    process.exit(1);
+    return res.status(400).json({ error: 'Please provide a URL as a query parameter' });
   }
 
   const browser = await puppeteer.launch({ headless: false });
@@ -49,12 +51,17 @@ puppeteer.use(StealthPlugin());
       };
     });
 
-    // Print the details
-    console.log(details);
+    // Send the details as a JSON response
+    res.json(details);
 
   } catch (error) {
     console.error('Error:', error);
+    res.status(500).json({ error: error.message });
   } finally {
     await browser.close();
   }
-})();
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
